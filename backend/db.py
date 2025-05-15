@@ -1,8 +1,12 @@
-# backend/db.py
-from pymongo import MongoClient
+# db.py
+from flask_mongoengine import MongoEngine
+import logging
 
-client = MongoClient("mongodb://localhost:27017")
-db = client["edutech_chatbot"]
+db = MongoEngine()
 
-users = db["users"]
-conversations = db["conversations"]
+def init_db(app):
+    try:
+        db.init_app(app)
+        app.logger.info("Kết nối MongoDB thành công!")
+    except Exception as e:
+        app.logger.error(f"Kết nối MongoDB thất bại: {e}")
